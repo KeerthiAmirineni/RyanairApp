@@ -14,8 +14,8 @@ python book_ryanair.py
 ```
 
 ## Running on Docker
-docker build -t my-ryanair-demo-app .
-docker run my-ryanair-demo-app
+1. docker build -t my-ryanair-demo-app .
+2. docker run my-ryanair-demo-app
 
 
 ## What It Does
