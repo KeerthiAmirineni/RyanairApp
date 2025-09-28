@@ -1,0 +1,34 @@
+{
+  "flight_details": {   
+    "departure_airport": "Dublin",
+    "departure_code": "DUB",
+    "destination_airport": "Copenhagen",
+    "destination_code": "CPH",
+    "departure_date": "2025-12-19",
+    "return_date": "2025-12-20",
+    "departure_month": "Dec"
+  },
+  "passengers": {
+    "adults": [
+      {
+        "title": "Mr",
+        "first_name": "DemoOne",
+        "surname": "AdultOne"       
+      },
+      {
+        "title": "Mrs",
+        "first_name": "DemoTwo",
+        "surname": "AdultTwo"       
+      }
+    ],
+    "children": []
+  },
+  "booking_preferences": {
+    "fare_type": "basic"
+  },
+  "browser_settings": {
+    "headless": true,
+    "timeout": 15000,
+    "page_load_timeout": 30000
+  }
+}

@@ -1,0 +1,5 @@
+playwright
+# Playwright needs to be installed with browsers
+# To install browsers: playwright install
+
+# No extra packages needed for asyncio, json, pathlib (all are standard library)
