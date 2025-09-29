@@ -15,7 +15,6 @@ def get_executable_dir():
 
 async def book_ryanair_flight():
     # Load configuration
-    # config_file = Path('config.json')
     config_file = Path(get_executable_dir()) / 'config.json'
     config = json.loads(config_file.read_text())
 
@@ -35,11 +34,13 @@ async def book_ryanair_flight():
         # 1. Go to Ryanair website
         await page.goto('https://www.ryanair.com/')
         await page.wait_for_load_state('networkidle')
+        print("Navigated to Ryanair homepage.")
 
         # 2. Accept privacy/cookie settings if prompted
         try:
             await page.wait_for_selector('button:has-text("Agree")', timeout=browser_settings['timeout'])
             await page.click('button:has-text("Agree")')
+            print("Accepted privacy settings.")
         except Exception:
             pass  # Consent button may not appear
 
@@ -70,17 +71,14 @@ async def book_ryanair_flight():
         try:
             await page.wait_for_selector('div[data-ref="input-button__dates-from"] div[data-ref="input-button__display-value"]', timeout=browser_settings['timeout'])
             await page.click('div[data-ref="input-button__dates-from"] div[data-ref="input-button__display-value"]')
-            await page.wait_for_timeout(1000)
             try:
                 await page.wait_for_selector(f'div[data-id="{flight_details["departure_month"]}"]', timeout=browser_settings['timeout'])
                 await page.click(f'div[data-id="{flight_details["departure_month"]}"]')
-                await page.wait_for_timeout(1000)
             except Exception:
-                print(f"{flight_details['departure_month']} month already visible or not selectable.")
+                print(f"{flight_details['departure_month']} month not selectable.")
             await page.wait_for_selector(f'div[data-id="{flight_details["departure_date"]}"]', timeout=browser_settings['timeout'])
             await page.click(f'div[data-id="{flight_details["departure_date"]}"]')
             print(f"Selected departure date as {flight_details['departure_date']}.")
-            await page.wait_for_timeout(1000)
         except Exception as e:
             print(f"Could not select departure date: {e}")
             await browser.close()
@@ -98,11 +96,9 @@ async def book_ryanair_flight():
 
         # 7. Add another adult passenger and check if 2 adults in total are selected before proceeding
         try:
-            
             await page.wait_for_selector('[data-ref="passengers-picker__adults"]', timeout=browser_settings['timeout'])
             await page.click('[data-ref="passengers-picker__adults"] div[class="counter__button-wrapper--enabled"]')
             print("Clicked to add an adult passenger.")
-            await page.wait_for_timeout(1000)
         
             # Assert that the number of adults is now 2
             await page.wait_for_selector('[data-ref="passengers-picker__adults"] [data-ref="counter.counter__value"]', timeout=browser_settings['timeout'])
@@ -269,7 +265,7 @@ async def book_ryanair_flight():
 
             # Click the "Add recommended seats" button
             await page.click('button:has-text("Add recommended seats")')
-            print("Clicked 'Add recommended seats' button.")
+            print("Selected recommended seats.")
                                    
         except Exception as e:
             print(f"Could not select seats: {e}")
@@ -295,12 +291,10 @@ async def book_ryanair_flight():
             for i, radio in enumerate(small_bag_radios):
                     # Scroll the radio button into view first
                     await radio.scroll_into_view_if_needed()
-                    await page.wait_for_timeout(500)
                         
                     # Click the radio button
                     await radio.click(force=True)
                     print(f"Clicked small-bag radio button {i + 1}")
-                    await page.wait_for_timeout(1000)
                 
             # Wait for selections to register
             await page.wait_for_timeout(2000)
@@ -316,7 +310,7 @@ async def book_ryanair_flight():
             return
 
         # 19. Pause and display for 3 seconds
-        print("Pausing for 3 seconds so you can view.")
+        print("Finally, Pausing for 3 seconds so you can view.")
         await page.wait_for_timeout(3000)
 
         await browser.close()
