@@ -71,14 +71,17 @@ async def book_ryanair_flight():
         try:
             await page.wait_for_selector('div[data-ref="input-button__dates-from"] div[data-ref="input-button__display-value"]', timeout=browser_settings['timeout'])
             await page.click('div[data-ref="input-button__dates-from"] div[data-ref="input-button__display-value"]')
+            await page.wait_for_timeout(1000) # Wait for the calendar to appear
             try:
                 await page.wait_for_selector(f'div[data-id="{flight_details["departure_month"]}"]', timeout=browser_settings['timeout'])
                 await page.click(f'div[data-id="{flight_details["departure_month"]}"]')
+                await page.wait_for_timeout(1000)  # Wait for the calendar to update
             except Exception:
                 print(f"{flight_details['departure_month']} month not selectable.")
             await page.wait_for_selector(f'div[data-id="{flight_details["departure_date"]}"]', timeout=browser_settings['timeout'])
             await page.click(f'div[data-id="{flight_details["departure_date"]}"]')
             print(f"Selected departure date as {flight_details['departure_date']}.")
+            await page.wait_for_timeout(1000) # Wait for the calendar to update
         except Exception as e:
             print(f"Could not select departure date: {e}")
             await browser.close()
