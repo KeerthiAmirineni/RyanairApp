@@ -10,7 +10,7 @@ pip install playwright
 playwright install
 
 # Run the script
-python book_ryanair.py
+python src/book_ryanair.py
 ```
 
 ## Running on Docker
@@ -55,7 +55,7 @@ Edit `config.json` with your booking details:
 - Supports up to 2 adult passengers  
 - Uses IATA airport codes (DUB, LGW, etc.)
 - Dates must be YYYY-MM-DD format
-- Set `"headless": false` to watch the browser
-- Script stops before payment for review
+- Set `"headless": false` in config.json to watch the browser
+- Script stops after bag selection and before payment for review
 
 **Disclaimer**: Testing purposes only.
